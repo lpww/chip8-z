@@ -1,24 +1,24 @@
 const std = @import("std");
+const sdl = @import("sdl2");
 
 pub fn main() !void {
-    // Prints to stderr (it's a shortcut based on `std.io.getStdErr()`)
+    const init_code = sdl.SDL_Init(sdl.SDL_INIT_EVERYTHING);
+    defer sdl.SDL_Quit();
+    checkSdlErr(init_code);
+
+    const window = sdl.SDL_CreateWindow("chip8-z window", sdl.SDL_WINDOWPOS_UNDEFINED, sdl.SDL_WINDOWPOS_UNDEFINED, 640, 320, sdl.SDL_WINDOW_SHOWN) orelse panic();
+    defer sdl.SDL_DestroyWindow(window);
+
+    while (true) {}
+
     std.debug.print("All your {s} are belong to us.\n", .{"codebase"});
-
-    // stdout is for the actual output of your application, for example if you
-    // are implementing gzip, then only the compressed bytes should be sent to
-    // stdout, not any debugging messages.
-    const stdout_file = std.io.getStdOut().writer();
-    var bw = std.io.bufferedWriter(stdout_file);
-    const stdout = bw.writer();
-
-    try stdout.print("Run `zig build test` to run the tests.\n", .{});
-
-    try bw.flush(); // don't forget to flush!
 }
 
-test "simple test" {
-    var list = std.ArrayList(i32).init(std.testing.allocator);
-    defer list.deinit(); // try commenting this out and see if zig detects the memory leak!
-    try list.append(42);
-    try std.testing.expectEqual(@as(i32, 42), list.pop());
+fn checkSdlErr(code: c_int) void {
+    if (code < 0) panic();
+}
+
+fn panic() noreturn {
+    const str = @as(?[*:0]const u8, sdl.SDL_GetError()) orelse "unknown error";
+    @panic(std.mem.sliceTo(str, 0));
 }
