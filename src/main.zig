@@ -18,7 +18,16 @@ pub fn main() !void {
     const renderer = try sdl.createRenderer(window, null, .{ .target_texture = true });
     defer renderer.destroy();
 
-    while (true) {
+    main_loop: while (true) {
+
+        // poll sdl events
+        while (sdl.pollEvent()) |event| {
+            switch (event) {
+                .quit => break :main_loop, // break the main loop
+                else => {},
+            }
+        }
+
         try renderer.setColorRGBA(0, 0, 0, 0); // set color to black
         try renderer.clear(); // clear the screen with color
 
