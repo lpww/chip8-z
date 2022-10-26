@@ -18,7 +18,7 @@ pub fn build(b: *std.build.Builder) void {
     // sdl.zig
     const sdk = Sdk.init(b);
     sdk.link(exe, .dynamic);
-    exe.addPackage(sdk.getNativePackage("sdl2"));
+    exe.addPackage(sdk.getWrapperPackage("sdl2"));
 
     exe.setBuildMode(mode);
     exe.install();
