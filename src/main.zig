@@ -1,16 +1,18 @@
 const std = @import("std");
 const sdl = @import("sdl2");
 
+const config = @import("config.zig");
+
 pub fn main() !void {
     try sdl.init(sdl.InitFlags.everything);
     defer sdl.quit();
 
     const window = try sdl.createWindow(
-        "chip-z window",
+        config.INTERPRETER_WiNDOW_TITLE,
         .{ .centered = {} },
         .{ .centered = {} },
-        640,
-        320,
+        config.CHIP8_SCALED_WIDTH,
+        config.CHIP8_SCALED_HEIGHT,
         .{ .vis = .shown },
     );
     defer window.destroy();
