@@ -8,5 +8,4 @@ pub const Registers = struct {
     delay_timer: u8 = 0,
     sound_timer: u8 = 0,
     program_counter: u16 = 0,
-    stack_pointer: u8 = 0,
 };
