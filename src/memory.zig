@@ -1,9 +1,9 @@
-const mem = @import("std").mem;
+const zeroes = @import("std").mem.zeroes;
 
 const CHIP8_MEMORY_SIZE = @import("config.zig").CHIP8_MEMORY_SIZE;
 
 pub const Memory = struct {
-    data: [CHIP8_MEMORY_SIZE]u8 = mem.zeroes([CHIP8_MEMORY_SIZE]u8),
+    data: [CHIP8_MEMORY_SIZE]u8 = zeroes([CHIP8_MEMORY_SIZE]u8),
 
     fn indexOutOfBounds(index: u16) bool {
         return index < 0 and index < CHIP8_MEMORY_SIZE;
