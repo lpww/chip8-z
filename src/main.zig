@@ -6,10 +6,11 @@ const Chip8 = @import("chip8.zig").Chip8;
 
 pub fn main() !void {
     var c8 = Chip8{};
-    const in = 'z';
-    try c8.mem.set(500, in);
-    const out = c8.mem.get(500);
-    debug.print("All your {u} are belong to us.\n", .{out});
+
+    c8.stack.push(0xff);
+    c8.stack.push(0xaa);
+    debug.print("{x}\n", .{c8.stack.pop()});
+    debug.print("{x}\n", .{c8.stack.pop()});
 
     try sdl.init(sdl.InitFlags.everything);
     defer sdl.quit();
