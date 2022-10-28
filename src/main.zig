@@ -2,8 +2,15 @@ const std = @import("std");
 const sdl = @import("sdl2");
 
 const config = @import("config.zig");
+const c = @import("chip8.zig");
 
 pub fn main() !void {
+    var chip = c.Chip8{};
+    const in = 'z';
+    try chip.mem.set(500, in);
+    const out = chip.mem.get(500);
+    std.debug.print("All your {u} are belong to us.\n", .{out});
+
     try sdl.init(sdl.InitFlags.everything);
     defer sdl.quit();
 
