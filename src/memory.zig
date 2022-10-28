@@ -1,9 +1,9 @@
-const std = @import("std");
+const mem = @import("std").mem;
 
-const config = @import("config.zig");
+const CHIP8_MEMORY_SIZE = @import("config.zig").CHIP8_MEMORY_SIZE;
 
 pub const Memory = struct {
-    data: [config.CHIP8_MEMORY_SIZE]u8 = std.mem.zeroes([config.CHIP8_MEMORY_SIZE]u8),
+    data: [CHIP8_MEMORY_SIZE]u8 = mem.zeroes([CHIP8_MEMORY_SIZE]u8),
 
     pub fn get(self: *Memory, index: u16) u8 {
         return self.data[index];

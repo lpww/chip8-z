@@ -1,5 +1,5 @@
-const m = @import("memory.zig");
+const Memory = @import("memory.zig").Memory;
 
 pub const Chip8 = struct {
-    mem: m.Memory = m.Memory{},
+    mem: Memory = Memory{},
 };
