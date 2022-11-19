@@ -11,3 +11,5 @@ pub const CHIP8_MEMORY_SIZE = 4096;
 
 pub const CHIP8_TOTAL_DATA_REGISTERS = 16;
 pub const CHIP8_TOTAL_STACK_DEPTH = 16;
+
+pub const CHIP8_TOTAL_KEYS = 16;
