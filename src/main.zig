@@ -8,7 +8,7 @@ const mapKeys = @import("keyboard.zig").mapKeys;
 const virtual_keys = [conf.CHIP8_TOTAL_KEYS]u32{ sdl.c.SDLK_0, sdl.c.SDLK_1, sdl.c.SDLK_2, sdl.c.SDLK_3, sdl.c.SDLK_4, sdl.c.SDLK_5, sdl.c.SDLK_6, sdl.c.SDLK_7, sdl.c.SDLK_8, sdl.c.SDLK_9, sdl.c.SDLK_a, sdl.c.SDLK_b, sdl.c.SDLK_c, sdl.c.SDLK_d, sdl.c.SDLK_e, sdl.c.SDLK_f };
 
 pub fn main() !void {
-    var c8 = Chip8{};
+    var c8 = Chip8.init();
 
     try sdl.init(sdl.InitFlags.everything);
     defer sdl.quit();
