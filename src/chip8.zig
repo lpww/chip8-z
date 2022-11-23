@@ -1,6 +1,7 @@
 const Keyboard = @import("keyboard.zig").Keyboard;
 const Memory = @import("memory.zig").Memory;
 const Registers = @import("registers.zig").Registers;
+const Screen = @import("screen.zig").Screen;
 const Stack = @import("stack.zig").Stack;
 
 const chip8_default_character_set = [80]u8{
@@ -26,6 +27,7 @@ pub const Chip8 = struct {
     keyboard: Keyboard = Keyboard{},
     mem: Memory = Memory{},
     reg: Registers = Registers{},
+    screen: Screen = Screen{},
     stack: Stack = Stack{},
 
     pub fn init() Chip8 {
