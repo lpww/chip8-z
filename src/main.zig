@@ -10,6 +10,8 @@ const virtual_keys = [conf.CHIP8_TOTAL_KEYS]u32{ sdl.c.SDLK_0, sdl.c.SDLK_1, sdl
 pub fn main() !void {
     var c8 = Chip8.init();
 
+    c8.screen.setPixelOn(10, 1);
+
     try sdl.init(sdl.InitFlags.everything);
     defer sdl.quit();
 
@@ -34,18 +36,14 @@ pub fn main() !void {
                 .quit => break :main_loop, // break the main loop
                 .key_down => |kev| {
                     const key = @intCast(u32, @enumToInt(kev.keycode));
-                    debug.print("keyboard_keycode: {X}\n", .{key});
                     const vkey = mapKeys(virtual_keys, key);
-                    debug.print("virtual_keycode: {X}\n", .{vkey});
                     if (vkey != -1) {
                         c8.keyboard.down(vkey);
                     }
                 },
                 .key_up => |kev| {
                     const key = @intCast(u32, @enumToInt(kev.keycode));
-                    debug.print("keyboard_keycode: {X}\n", .{key});
                     const vkey = mapKeys(virtual_keys, key);
-                    debug.print("virtual_keycode: {X}\n", .{vkey});
                     if (vkey != -1) {
                         c8.keyboard.up(vkey);
                     }
@@ -56,17 +54,23 @@ pub fn main() !void {
 
         try renderer.setColorRGBA(0, 0, 0, 0); // set color to black
         try renderer.clear(); // clear the screen with color
-
-        // 40x40 rectangle
-        const r = sdl.Rectangle{
-            .x = 0,
-            .y = 0,
-            .width = 40,
-            .height = 40,
-        };
-
         try renderer.setColorRGBA(255, 255, 255, 0); // set color to white
-        try renderer.fillRect(r); // fill rectangle with color
+
+        for (c8.screen.pixels) |row, y| {
+            for (row) |pixel_is_on, x| {
+                if (pixel_is_on) {
+                    const r = sdl.Rectangle{
+                        .x = @intCast(c_int, x) * conf.CHIP8_SCALE_FACTOR,
+                        .y = @intCast(c_int, y) * conf.CHIP8_SCALE_FACTOR,
+                        .width = conf.CHIP8_SCALE_FACTOR,
+                        .height = conf.CHIP8_SCALE_FACTOR,
+                    };
+
+                    try renderer.fillRect(r); // fill rectangle with color
+                }
+            }
+        }
+
         renderer.present();
     }
 
