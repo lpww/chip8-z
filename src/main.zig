@@ -1,4 +1,5 @@
 const debug = @import("std").debug;
+const time = @import("std").time;
 const sdl = @import("sdl2");
 
 const conf = @import("config.zig");
@@ -9,6 +10,8 @@ const virtual_keys = [conf.CHIP8_TOTAL_KEYS]u32{ sdl.c.SDLK_0, sdl.c.SDLK_1, sdl
 
 pub fn main() !void {
     var c8 = Chip8.init();
+
+    c8.reg.delay_timer = 255;
 
     c8.screen.setPixelOn(10, 1);
 
@@ -72,6 +75,11 @@ pub fn main() !void {
         }
 
         renderer.present();
+
+        if (c8.reg.delay_timer > 0) {
+            time.sleep(100 / 1000);
+            c8.reg.delay_timer -= 1;
+        }
     }
 
     debug.print("All your {s} are belong to us.\n", .{"codebase"});
