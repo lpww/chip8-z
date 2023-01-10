@@ -1,3 +1,4 @@
+const mem = @import("std").mem;
 const Keyboard = @import("keyboard.zig").Keyboard;
 const Memory = @import("memory.zig").Memory;
 const Registers = @import("registers.zig").Registers;
@@ -32,8 +33,7 @@ pub const Chip8 = struct {
 
     pub fn init() Chip8 {
         var c8 = Chip8{};
-        // todo: find the proper zig way to do this
-        @memcpy(&c8.mem.data, &chip8_default_character_set, chip8_default_character_set.len);
+        mem.copy(u8, &c8.mem.data, &chip8_default_character_set);
         return c8;
     }
 };
