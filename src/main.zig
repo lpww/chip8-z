@@ -13,7 +13,8 @@ pub fn main() !void {
 
     c8.reg.delay_timer = 255;
 
-    c8.screen.setPixelOn(10, 1);
+    var is_collison: bool = c8.screen.drawSprite(62, 10, c8.mem.data[0..5]);
+    debug.print("Collison detected: {d}.\n", .{@boolToInt(is_collison)});
 
     try sdl.init(sdl.InitFlags.everything);
     defer sdl.quit();
