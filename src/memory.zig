@@ -9,7 +9,7 @@ pub const Memory = struct {
         return index > CHIP8_MEMORY_SIZE;
     }
 
-    pub fn get(self: *Memory, index: u16) u8 {
+    pub fn get(self: *Memory, index: u16) !u8 {
         if (isOutOfBounds(index)) @panic("memory out of bounds");
         return self.data[index];
     }
@@ -17,5 +17,11 @@ pub const Memory = struct {
     pub fn set(self: *Memory, index: u16, value: u8) !void {
         if (isOutOfBounds(index)) @panic("memory out of bounds");
         self.data[index] = value;
+    }
+
+    pub fn getOpcode(self: *Memory, index: u16) u2 {
+        const byte1: u2 = self.get(index);
+        const byte2: u2 = self.get(index + 1);
+        return byte1 << 8 | byte2;
     }
 };

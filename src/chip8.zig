@@ -5,6 +5,8 @@ const Registers = @import("registers.zig").Registers;
 const Screen = @import("screen.zig").Screen;
 const Stack = @import("stack.zig").Stack;
 
+const CHIP8_PROGRAM_LOAD_ADDRESS = @import("config.zig").CHIP8_PROGRAM_LOAD_ADDRESS;
+
 const chip8_default_character_set = [80]u8{
     0xf0, 0x90, 0x90, 0x90, 0xf0, // "0"
     0x20, 0x60, 0x20, 0x20, 0x70, // "1"
@@ -36,4 +38,12 @@ pub const Chip8 = struct {
         mem.copy(u8, &c8.mem.data, &chip8_default_character_set);
         return c8;
     }
+
+    pub fn load(self: *Chip8, buf: *[]const u8, size: u8) void {
+        mem.copy(u8, &self.mem.data[CHIP8_PROGRAM_LOAD_ADDRESS..size], &buf);
+        self.registers.program_counter = CHIP8_PROGRAM_LOAD_ADDRESS;
+    }
+
+    // pub fn exec(self: *Chip8, opcode: u2) void {
+    // }
 };
